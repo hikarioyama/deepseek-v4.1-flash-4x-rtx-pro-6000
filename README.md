@@ -28,7 +28,7 @@ This repository contains an end-to-end Docker launcher and measured inference re
 Requirements: Linux x86-64, a CUDA 13-compatible NVIDIA driver, Docker Compose, NVIDIA Container Toolkit, four available 96 GB RTX PRO 6000 GPUs, and about 510 GB of checkpoint storage plus container/cache headroom. NVMe mode requires a filesystem supporting direct I/O.
 
 ```bash
-git clone https://github.com/0xSero/deepseek-v4.1-flash-4x-rtx-pro-6000.git
+git clone https://github.com/sybil-solutions/deepseek-v4.1-flash-4x-rtx-pro-6000.git
 cd deepseek-v4.1-flash-4x-rtx-pro-6000
 mkdir -p models state
 docker compose up --build -d
