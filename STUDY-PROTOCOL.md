@@ -15,7 +15,7 @@ The B12x vLLM capture helper was reviewed but not installed: it assumes a differ
 
 ## Fixed experiment contract
 
-- Checkpoint revision fb2764a5cf321eaa5070ca8f9e892818f477c16d, native Engram FP8/E8M0; no new quantization arm.
+- Checkpoint deepseek-ai/DeepSeek-V4.1-Flash-1017 revision 1bae0e1088993b9b82de08f59de5be5a34e42170 (from 2026-10-17; earlier runs used DeepSeek-V4.1-Flash revision fb2764a5cf321eaa5070ca8f9e892818f477c16d, same config and tokenizer), native Engram FP8/E8M0; no new quantization arm.
 - Four GPUs, TP4/EP4, 275 W per GPU, DSpark block 5, eight slots, memory fraction 0.95, context 524288 and pool cap 4200000 for the current candidate. Capacity allocation and populated capacity remain separate facts.
 - Preserve the original 45-cell workload: 512, 2048, 8192, 32768, 65536, 131072, 200000, 400000 and 500000 input tokens at C1/2/4/6/8, each with 8192 forced output tokens. Synthetic forced-output throughput is not a quality evaluation.
 - Keep model/tokenizer, endpoint, input IDs, sampling, output length, cache budget and scheduler settings identical between storage arms. Record prompt-cache state separately from DDR5 Engram-cache warmth and operating-system page-cache state.
