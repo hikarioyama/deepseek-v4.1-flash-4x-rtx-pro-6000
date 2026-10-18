@@ -9,6 +9,9 @@
 > itemizes what the recipe changes inside the engine. Nothing here is an
 > endorsement by the upstream author, and the upstream repository remains the
 > source of truth for the recipe itself.
+>
+> Measurements I took myself on the same four GPUs, with a different workload from
+> the sweep below, are recorded in [LOCAL-MEASUREMENTS.md](LOCAL-MEASUREMENTS.md).
 
 Run DeepSeek-V4.1-Flash on one Linux machine with **4 × 96 GB RTX PRO 6000 Blackwell GPUs, 128 GB DDR5, and local NVMe**. Compute weights and model-native compressed KV stay on the GPUs. Native FP8 Engram rows use a bounded DDR5 cache, with exact NVMe reads on misses. **DSpark is enabled. No second machine is required.**
 
@@ -99,6 +102,11 @@ A 64 GiB cache budget is bounded capacity, not a promise that every byte is popu
 The launcher accepts context lengths from 400,000 through the model's published 1,048,576 limit. Acceptance applies only to measured configurations. Decode/verification CUDA graphs are enabled; this runtime disables prefill CUDA graphs. The container does not change fans, power limits or CPU policy.
 
 ## 4. Current local speed sweep
+
+> The numbers in this section are the upstream author's sweep (275 W, 8,192 forced
+> output tokens, synthetic input). Measurements I took myself on the same GPUs with
+> real prompts, 1,024 output tokens and a 300 W cap are kept separate in
+> [LOCAL-MEASUREMENTS.md](LOCAL-MEASUREMENTS.md).
 
 **All 45 cases completed successfully.** Every request completed without reported errors; each case had a positive shared decode interval. [Machine-readable results](results/local-nvme-dspark-summary.json) · [Configuration](results/local-nvme-dspark-config.json).
 
