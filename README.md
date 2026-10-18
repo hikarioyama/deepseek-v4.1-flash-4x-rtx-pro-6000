@@ -1,5 +1,15 @@
 # DeepSeek-V4.1-Flash on 4 × RTX PRO 6000
 
+> **This is a fork.** The recipe, the launcher, the adapter and every measurement
+> in this repository were written by the upstream authors at
+> [sybil-solutions/deepseek-v4.1-flash-4x-rtx-pro-6000](https://github.com/sybil-solutions/deepseek-v4.1-flash-4x-rtx-pro-6000)
+> (committed as `seroxdesign` / `0xSero`); `LICENSE` is theirs. This fork keeps
+> that work unchanged and adds only documentation: [ACKNOWLEDGEMENTS.md](ACKNOWLEDGEMENTS.md)
+> credits the projects the recipe builds on, and [ENGINE-CHANGES.md](ENGINE-CHANGES.md)
+> itemizes what the recipe changes inside the engine. Nothing here is an
+> endorsement by the upstream author, and the upstream repository remains the
+> source of truth for the recipe itself.
+
 Run DeepSeek-V4.1-Flash on one Linux machine with **4 × 96 GB RTX PRO 6000 Blackwell GPUs, 128 GB DDR5, and local NVMe**. Compute weights and model-native compressed KV stay on the GPUs. Native FP8 Engram rows use a bounded DDR5 cache, with exact NVMe reads on misses. **DSpark is enabled. No second machine is required.**
 
 This repository contains an end-to-end Docker launcher and measured inference results. It is still experimental: successful loading, measured speed, populated context capacity, and feature correctness are separate milestones.
@@ -349,9 +359,13 @@ Shutdown preserves checkpoint, state and kernel caches. Restore an earlier servi
 | Model | [DeepSeek-V4.1-Flash-1017](https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash-1017), revision `1bae0e1088993b9b82de08f59de5be5a34e42170`. Config, tensor index, tokenizer and inference code are identical to the earlier [DeepSeek-V4.1-Flash](https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash) revision `fb2764a5cf321eaa5070ca8f9e892818f477c16d`; all 48 weight shards changed. Measurements below that predate 2026-10-17 used the earlier revision. |
 | SGLang base | `lmsysorg/sglang@sha256:c4ca651192e57e91989b5176c3665148131b9a171e53861dee87f5e57cef25b5` |
 | SM120 compatibility | Existing DeepGEMM planner initialization; sparse-prefill sources split into supported 64-token pages with independent scratch buffers |
+| FP8 lineage | vLLM's block-quantization code, reached through SGLang's `fp8.py` ("Adapted from vllm-project/vllm"); credited in [ACKNOWLEDGEMENTS.md](ACKNOWLEDGEMENTS.md) |
 | Related work | [B12x](https://github.com/local-inference-lab/b12x), [DeepSpark](https://github.com/brandonmmusic-max/deepspark), [earlier DS4 SM120 recipe](https://github.com/jacklarmer/deepseek-v4-flash-0731-sm120) |
+| Our changes to the engine | [ENGINE-CHANGES.md](ENGINE-CHANGES.md): one replaced engine file plus two import-time hooks, itemized with the upstream file each one touches |
 
 Weights are downloaded at runtime and retain their upstream license. They are not included in the container. The adapted SGLang file retains Apache-2.0 licensing; see [NOTICE](NOTICE) for attribution.
+
+**Credits and independence.** The engine, its kernels and the model belong to other people. [ACKNOWLEDGEMENTS.md](ACKNOWLEDGEMENTS.md) names each source, states what we took and what we did not take, and records what we still intend to return upstream (the SM120 sparse-decode page-splitting fix and a `PagedIndexerMetadata` guard workaround). This repository is one operator's measured attempt and is **not affiliated with, sponsored by, or endorsed by** SGLang, vLLM, FlashInfer, DeepGEMM, DeepSeek, Local Inference Lab, DeepSpark or the earlier DS4 SM120 recipe. Naming them is a citation, not a claim of approval, and no upstream maintainer is responsible for any number or limitation published here.
 
 ## Study protocol and upstream skills
 

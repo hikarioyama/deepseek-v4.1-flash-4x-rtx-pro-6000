@@ -4,8 +4,35 @@ provided under the MIT license in LICENSE.
 runtime/flash_mla_sm120.py is derived from SGLang and remains licensed under
 Apache License 2.0. See LICENSE.sglang and the pinned runtime/source references
 in README.md. The added page-splitting fix is distributed under the same terms.
+The rest of the engine image is unmodified; the adapter's other hooks are applied
+at import time. ENGINE-CHANGES.md itemizes every change this repository makes to
+the engine and names the upstream file each one touches.
 
 SGLang, FlashInfer, DeepGEMM, PyTorch, NVIDIA components and the DeepSeek model
 retain their respective upstream licenses. This repository does not redistribute
-model weights. B12x and prior DeepSpark/DS4 recipes are credited as related work;
-their kernels are not integrated into the default image.
+model weights.
+
+The FP8 quantization and block-scale code the engine executes carries an
+"Adapted from vllm-project/vllm" notice inside SGLang's fp8.py. That lineage is
+credited to the vLLM project here even though this repository never runs vLLM.
+
+Local Inference Lab published the guidance and the reader design this work is
+measured against: b12x (Apache-2.0) for the study discipline and the native
+FP8/E8M0 row layout, its SGLang fork (Apache-2.0) for the performance and
+benchmarking skills, and llm-inference-bench (MIT) for the measurement method.
+The rtx6kpro KLD skill was reviewed and not applied. No source from these
+repositories is redistributed here, and their kernels are not integrated into
+the default image. Receipts named b12x-* in results/ are this repository's own
+measurements of a bounded candidate, not results published by B12x.
+
+B12x and prior DeepSpark/DS4 recipes are credited as related work; their kernels
+are not integrated into the default image.
+
+This repository is a documentation-only fork of
+sybil-solutions/deepseek-v4.1-flash-4x-rtx-pro-6000. The recipe, the launcher, the
+adapter and the published measurements, together with LICENSE and LICENSE.sglang,
+are that upstream author's work; this fork adds attribution documents only.
+
+This repository is not affiliated with, sponsored by, or endorsed by any of the
+projects named above or by the upstream recipe's author. Full credits, including
+what we still intend to return upstream, are in ACKNOWLEDGEMENTS.md.
